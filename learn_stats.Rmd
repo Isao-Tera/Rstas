@@ -1,0 +1,51 @@
+---
+title: "統計検定3級"
+author: "Isao Terashima"
+date: "3/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## 統計検定合格を目指してR+RStudioで勉強
+  統計検定3級の範囲<https://www.toukei-kentei.jp/about/grade3/>
+  
+  * Data usage
+  
+  
+## データの種類（量的変数、質的変数、名義尺度、順序尺度、間隔尺度、比例尺度）
+
+## 標本調査と実験（母集団と標本、実験の基本的な考え方、国勢調査）
+
+## 統計グラフとデータの集計（１変数データ、２変数データ）
+
+## 時系列データ（時系列グラフ、指数（指標）、移動平均）
+
+## データの散らばりの指標（四分位数、四分位範囲、分散、標準偏差、変動係数）
+## データの散らばりのグラフ表現（箱ひげ図、はずれ値）
+## 相関と回帰（散布図、擬相関、相関係数、相関と因果、回帰直線）
+## 確率（独立な試行、条件付き確率）
+## 確率分布（確率変数の平均・分散、二項分布、正規分布、二項分布の正規近似）
+## 統計的な推測（母平均・母比率の標本分布、区間推定、仮説検定）
