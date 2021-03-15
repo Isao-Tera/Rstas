@@ -11,14 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
 ## Including Plots
 
 You can also embed plots, for example:
@@ -32,14 +24,59 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 ## 統計検定合格を目指してR+RStudioで勉強
   統計検定3級の範囲<https://www.toukei-kentei.jp/about/grade3/>
   
-  * Data usage
+  * library
+```{r libraries}
+library(tidyverse)
+```
   
-  
+    
 ## データの種類（量的変数、質的変数、名義尺度、順序尺度、間隔尺度、比例尺度）
+データ分析を開始する際、先ずはデータを観察・内容などデータそのものを理解しよう！<br>
+
+データは次の2種類に大別される<br>
+
+1. 質的変数；離散変数
+  A. 順序尺度 アンケート調査の1から５段階評価など並び方に意味はあるが、数値間の間隔には意味が無い。
+             四則演算に意味がない
+  B. 名義尺度　小学校->中学校->高校  ->大学　など順序のなるカテゴリ
+  
+2. 量的変数；連続変数
+  a. 間隔尺度　温度など　足し算・引き算は可能だが、掛け算・割り算に意味が無い
+  b. 比例尺度　お金　四則演算可能
+
 
 ## 標本調査と実験（母集団と標本、実験の基本的な考え方、国勢調査）
+* 母集団 Population；調査対象となる全数　
+  + 例　小学生の平均身長を知りたい　母集団は、日本全国の小学生1年から6年生までの男女の人数
+  
+* 標本 Sample; 母集団から無作為抽出した調査対象
+  + 例　小学生の平均身長を知りたい 小学生全数の身長を測定するには時間とお金がかかるー＞　全国の小学校から無作為に選んだ100の小学校を対象とする
 
 ## 統計グラフとデータの集計（１変数データ、２変数データ）
+```{r iris}
+summary(iris)
+```
+
+* アヤメのデータを使って1変数・2変数データを考える
+  + Sepal.Length（がく片の長さ）
+  + Sepal.Width（がく片の幅）
+  + Petal.Length（花弁の長さ）
+  + Petal.Width（花弁の幅）
+  + Species（種，setosa，versicolor，virginica の3種類）
+
+#### 1変数データからデータの分布を調べる
+1. histogram
+
+```{r}
+iris %>% 
+  ggplot2::ggplot(aes(x=Sepal.Length)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(iris$Sepal.Length), colour = "blue") +
+  geom_vline(xintercept = median(iris$Sepal.Length), colour = "red")
+```
+
+
+#### 2変数データからデータ間の相関を調べる
 
 ## 時系列データ（時系列グラフ、指数（指標）、移動平均）
 
