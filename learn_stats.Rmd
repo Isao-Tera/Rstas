@@ -65,14 +65,33 @@ summary(iris)
   + Species（種，setosa，versicolor，virginica の3種類）
 
 #### 1変数データからデータの分布を調べる
-1. histogram
+1. histogram <br>
+変数の分布を確認する。正規分布・左右のどちらかに偏りがある・2つ山など、分布によって統計量の扱いに注意
 
 ```{r}
 iris %>% 
-  ggplot2::ggplot(aes(x=Sepal.Length)) +
-  geom_histogram() +
+  ggplot2::ggplot(aes(x = Sepal.Length)) +
+  geom_histogram(aes(fill = Species, alpha = 0.5)) +
   geom_vline(xintercept = mean(iris$Sepal.Length), colour = "blue") +
   geom_vline(xintercept = median(iris$Sepal.Length), colour = "red")
+```
+
+2. 箱ひげ図 <br>
+平均、中央値、四分位数が視覚的に把握できる
+```{r box-plot}
+iris %>% 
+  ggplot(aes(x=Species, y=Sepal.Length)) +
+  geom_boxplot() +
+  geom_jitter(aes(width = 0.25, color = Species))
+```
+
+3. ヴァイオリンプロット <br>
+箱ひげ図ではデータがどのような分布になっているか把握できない。-> ヴァイオリンプロットの出番
+```{r violin}
+iris %>% 
+  ggplot(aes(x=Species, y=Sepal.Length)) +
+  geom_violin() +
+  geom_jitter(aes(width = 0.25, color = Species))
 ```
 
 
