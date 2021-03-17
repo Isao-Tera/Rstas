@@ -97,6 +97,24 @@ iris %>%
 
 #### 2変数データからデータ間の相関を調べる
 
+失敗例：種の違いを無視し、全データに対して単回帰直線をフィッティング
+```{r}
+iris %>% 
+  ggplot(aes(x=Sepal.Width, y=Sepal.Length)) +
+  geom_point(aes(color = Species)) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+種ごとにたん回帰直線をフィッティング
+```{r}
+iris %>% 
+  ggplot(aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+
 ## 時系列データ（時系列グラフ、指数（指標）、移動平均）
 
 ## データの散らばりの指標（四分位数、四分位範囲、分散、標準偏差、変動係数）
