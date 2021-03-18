@@ -27,6 +27,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
   * library
 ```{r libraries}
 library(tidyverse)
+library(tsibble)
 ```
   
     
@@ -116,6 +117,15 @@ iris %>%
 
 
 ## 時系列データ（時系列グラフ、指数（指標）、移動平均）
+```{r}
+UKgas %>% plot()
+```
+
+```{r}
+AirPassengers %>% plot()
+```
+
+
 
 ## データの散らばりの指標（四分位数、四分位範囲、分散、標準偏差、変動係数）
 ## データの散らばりのグラフ表現（箱ひげ図、はずれ値）
