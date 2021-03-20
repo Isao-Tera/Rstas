@@ -106,7 +106,7 @@ iris %>%
   geom_smooth(method = "lm", se = FALSE)
 ```
 
-種ごとにたん回帰直線をフィッティング
+種ごとに単回帰直線をフィッティング
 ```{r}
 iris %>% 
   ggplot(aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
@@ -117,17 +117,37 @@ iris %>%
 
 
 ## 時系列データ（時系列グラフ、指数（指標）、移動平均）
+
+時系列の生データを可視化
 ```{r}
-UKgas %>% plot()
+UKgas %>% as_tsibble() %>% 
+  ggplot(aes(x=index, y=value)) +
+  geom_line()
 ```
 
-```{r}
-AirPassengers %>% plot()
-```
+移動平均 -> 平均をとることで変動を慣らし、増加or減少の傾向を確認する
+```{r moving_average}
 
+gas <- UKgas %>% as_tsibble()
+gas %>% 
+  mutate(mov_avg = zoo::rollmean(value, k = 5, fill = NA)) %>% 
+  ggplot(aes(x = index, y = mov_avg)) +
+  geom_line(aes(color = "red")) +
+  geom_line(aes(x = index, y = value, color = "gray"))
+```
+指数（指標）: 基準からの変化を調べたい
+```{r index_ratio}
+gas %>% 
+  mutate(ratio = value / value[1]) %>% 
+  ggplot(aes(index, ratio)) +
+  geom_line()
+
+```
 
 
 ## データの散らばりの指標（四分位数、四分位範囲、分散、標準偏差、変動係数）
+
+
 ## データの散らばりのグラフ表現（箱ひげ図、はずれ値）
 ## 相関と回帰（散布図、擬相関、相関係数、相関と因果、回帰直線）
 ## 確率（独立な試行、条件付き確率）
