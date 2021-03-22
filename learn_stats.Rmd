@@ -147,6 +147,99 @@ gas %>%
 
 ## データの散らばりの指標（四分位数、四分位範囲、分散、標準偏差、変動係数）
 
+* 不偏分散<br>
+  保持するデータは母集団の一部、すなわち標本。
+  標本から母数を推定する。
+  データの背後に母集団を想定し、母集団の値を想定する場合に不偏分散を使用する。
+  各データ - 平均:平均からの偏差  
+  正規分布の場合、平均からの偏差を合計すると「０」になる.
+  そのため、偏差を2乗している
+
+```{r variance}
+avg <- mean(iris$Sepal.Length)
+iris_mod <- iris %>% 
+  mutate(diff_power_Sepal.Length = (Sepal.Length - avg)**2)
+
+sum(iris_mod$diff_power_Sepal.Length) / (length(iris_mod$diff_power_Sepal.Length) - 1) 
+```
+```{r}
+var(iris$Sepal.Length)
+```
+
+* 標準偏差  
+  分散は二乗しているため、元のデータと次元が一致しない
+  そのため√を計算することで単位を合わせる
+```{r standart_deviation}
+
+sqrt(sum(iris_mod$diff_power_Sepal.Length) / (length(iris_mod$diff_power_Sepal.Length) - 1) )
+
+```
+
+```{r}
+sd(iris$Sepal.Length)
+```
+
+* 標本分散<br>
+  手元にすべてのデータがあり、そのデータ事態がどの程度散らばっているかを調べる場合
+```{r sample_variance}
+avg <- mean(iris$Sepal.Length)
+iris_mod <- iris %>% 
+  mutate(diff_power_Sepal.Length = (Sepal.Length - avg)**2)
+
+sum(iris_mod$diff_power_Sepal.Length) / (length(iris_mod$diff_power_Sepal.Length)) 
+```
+
+* 変動係数
+種ごとの平均値と標準偏差
+```{r sd_and_mean}
+iris %>% 
+  group_by(Species) %>% 
+  summarise(avg_len = mean(Sepal.Length),
+            sd_len = sd(Sepal.Length))
+```
+
+上記3種類の中で、ばらつきが大きい・小さい種はどれか？調べるには<br>
+もし平均値が大きく異なっていたら、標準偏差の値からではばらつき大小を判断できない<br>
+->変動係数を使おう！　標準偏差/平均
+
+```{r coeffcient_of_varience}
+iris %>% 
+  group_by(Species) %>% 
+  summarise(avg_len = mean(Sepal.Length),
+            sd_len = sd(Sepal.Length),
+            cv_len = sd_len / avg_len)
+```
+
+変動係数は、平均値に対して標準偏差が比例関係にあるものに対して適用するのが正しい使い方です。すなわち、比例尺度の場合に有効な指標であり、間隔尺度では参考になりません。
+
+* 四分位数
+```{r quantile}
+iris %>% 
+  group_by(Species) %>% 
+  summarise(quantile(Sepal.Length)) %>% 
+  filter(Species == "setosa")
+```
+上から最小値、25パーセンタイル値、中央値、75パーセンタイル値、最大値
+
+```{r quantile}
+iris %>% 
+  group_by(Species) %>% 
+  summarise(min_len = min(Sepal.Length),
+            med_lem = median(Sepal.Length),
+            max_len = max(Sepal.Length)) %>% 
+  filter(Species == "setosa")
+```
+
+* 四分位範囲
+75パーセンタイル値　-　25パーセンタイル値<br>
+箱ひげ図の四角の範囲、つまりデータの50％が分布する範囲が分かる
+
+```{r quantile_range}
+iris %>% 
+  group_by(Species) %>% 
+  summarise(qrange = IQR(Sepal.Length)) %>% 
+  filter(Species == "setosa")
+```
 
 ## データの散らばりのグラフ表現（箱ひげ図、はずれ値）
 ## 相関と回帰（散布図、擬相関、相関係数、相関と因果、回帰直線）
