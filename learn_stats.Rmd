@@ -28,6 +28,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 ```{r libraries}
 library(tidyverse)
 library(tsibble)
+library(broom)
 ```
   
     
@@ -263,6 +264,30 @@ iris %>%
 ```
 
 * Linear Regression Model
+1種のみ適用
+```{r setona_regression}
+setosa <- iris %>% 
+  filter(Species == "setosa") %>% 
+  select(Sepal.Length, Sepal.Width)
+
+setosa_model <- lm(formula = Sepal.Length ~ Sepal.Width, data = setosa)
+
+summary(setosa_model)
+```
+単回帰の結果をtidyにする
+```{r broom_linearmodel}
+broom::tidy(setosa_model)
+```
+
+3種に単回帰モデルを適用
+```{r}
+lmfit <- iris %>% 
+  split(.$Species) %>% 
+  map(function(df) {lm(Sepal.Length ~ Sepal.Width, df)})
+
+broom::tidy(lmfit)
+```
+
 
 
 ## 確率（独立な試行、条件付き確率）
