@@ -1,0 +1,133 @@
+---
+title: "Statictics in R"
+author: "Isao Terashima"
+date: "6/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+### Descraptive Statictics
+Calculate specific values like average, median, and so on from data
+
+
+### Interfere Statictics
+Estimate population from sample data
+
+### Data type
+* Numeric
+  + Continuous 
+    - Car speed
+    - Time for a customer bought products in POS data  
+    
+  + Discrete
+    - # of SKU
+    - Sales volume
+
+* Categorical
+  + Nominal or unordered
+    - Sex
+    - Countries
+
+  + Ordinal or ordered
+    - Strongly disagree, disagree, Neither agree or disagree, agree, Strongly agree
+    
+### Measures of Center
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+glimpse(mtcars)
+```
+
+
+```{r test-data}
+summary(mtcars)
+```
+
+```{r}
+mtcars %>% 
+    group_by(cyl) %>% 
+    summarise(mean_mpg = mean(mpg),
+              median_mpg = median(mpg))
+```
+
+中心には平均値がよく使われる。しかし、データの分布を確認せずに平均を使うとミスリードする。
+なぜなら、平均値は外れ値の影響で大きく変化するからだ。
+データから代表値を求める場合、”分布”を確認しよう。→　1変数の場合、ヒストグラムが有効
+
+ヒストグラムをggplotで作図してみよう
+
+正規分布、right-skewd, left-skewed
+分布に偏りがある場合、中央値がcenterとして有効である。
+
+
+### Measures of Spread
+
+* Variation Standard Deviation
+```{r var_and_sd}
+mtcars %>% 
+    group_by(cyl) %>% 
+    summarise(Var_mpg = var(mpg),
+              sd_mpg = sd(mpg))
+```
+
+
+```{r}
+mtcars %>% 
+    ggplot(aes(x = cyl, y = mpg)) +
+    geom_point(aes(color = cyl)) + 
+    geom_jitter()
+    
+```
+
+* データの分布範囲を確認する
+
+```{r quantile}
+quantile(mtcars$mpg)
+```
+```{r}
+quantile(mtcars$mpg)[2]
+```
+
+
+
+Calculate quintuples and deciles, which split up a data　set into 5, 10
+```{r quintiles}
+quantile(mtcars$mpg, seq(0, 1, 0.2))
+```
+
+```{r}
+quantile(mtcars$mpg, seq(0, 1, 0.1))
+```
+
+* Find Outliers using IQR, InterQurtile Range
+
+```{r iqr}
+q1 <- quantile(mtcars$mpg, 0.25)
+q3 <- quantile(mtcars$mpg, 0.75)
+iqr <- q3 - q1
+```
+
+```{r}
+# Threshold value to judge outliers
+upper <- q3 + (1.5 * iqr)
+lower <- q1 - (1.5 * iqr)
+```
+
+```{r}
+mtcars %>% 
+    filter(mpg < lower | mpg > upper)
+```
+
