@@ -199,4 +199,40 @@ pbinom(1,3,0.3)
 # Probability of closing > 1 deal out of 3 deals
 pbinom(1, 3, 0.3, lower.tail = FALSE)
 ```
+### Normal Distrbution
+```{r}
+summary(iris)
+```
+
+```{r}
+print(mean(iris$Sepal.Length))
+print(sd(iris$Sepal.Length))
+```
+
+
+
+```{r}
+iris %>% 
+  ggplot() +
+  geom_histogram(aes(x=Sepal.Length, y=..density..),fill="steelblue", bins = 10) +
+  stat_function(fun = dnorm, args = list(mean = mean(iris$Sepal.Length), sd = sd(iris$Sepal.Length)))
+```
+
+Sepal.Length > 5となる確率は？
+```{r}
+pnorm(5, 
+      mean = mean(iris$Sepal.Length), 
+      sd = sd(iris$Sepal.Length),
+      lower.tail = FALSE)
+```
+6 < Sepal.Length < 7となる確率は？
+
+```{r}
+pnorm(7, mean = mean(iris$Sepal.Length), sd = sd(iris$Sepal.Length)) - 
+  pnorm(6, mean = mean(iris$Sepal.Length), sd = sd(iris$Sepal.Length))
+```
+80%となる値は？
+```{r}
+qnorm(0.68, mean = mean(iris$Sepal.Length), sd = sd(iris$Sepal.Length))
+```
 
