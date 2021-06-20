@@ -235,4 +235,48 @@ pnorm(7, mean = mean(iris$Sepal.Length), sd = sd(iris$Sepal.Length)) -
 ```{r}
 qnorm(0.68, mean = mean(iris$Sepal.Length), sd = sd(iris$Sepal.Length))
 ```
+### 中心極限定理
+
+Irisデータを利用する
+```{r}
+iris$Sepal.Length
+```
+
+150個の平均値
+```{r}
+mean(iris$Sepal.Length)
+```
+
+ランダムサンプリング
+```{r}
+set.seed(6)
+sample(iris$Sepal.Length, size = 20, replace = TRUE)
+```
+
+20このデータの平均
+```{r}
+set.seed(6)
+sample(iris$Sepal.Length, size = 20, replace = TRUE) %>% 
+  mean()
+```
+20個のデータをランダムにサンプリングした平均値を100個
+```{r}
+set.seed(6)
+replicate(100,
+          sample(iris$Sepal.Length, size = 20, replace = TRUE) %>% mean()
+)
+```
+
+```{r}
+set.seed(6)
+samples <- replicate(100,
+           sample(iris$Sepal.Length, size = 20, replace = TRUE) %>% mean()
+           )
+df <- data.frame(mean = samples)
+
+df %>% 
+  ggplot(aes(mean)) +
+  geom_histogram(bins = 10)
+  
+```
 
